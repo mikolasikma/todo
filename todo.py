@@ -24,13 +24,14 @@ def deleteTask(taskId):
 tasks = []
 
 tasks.append(createTask("Learn Java"))
+#printAllTasks()
 
-markTaskAsDone(tasks[0])
+#markTaskAsDone(tasks[0])
 
-deleteTask(1)
+#deleteTask(1)
+print("This is a task to-do list!")
 
 while True:
-    print("This is a task to-do list!")
     print("Make your choice: ")
     print("1. Add a task")
     print("2. Print all tasks")
@@ -41,9 +42,14 @@ while True:
     choice = input("Enter your choice: ")
 
     if choice == '1':
-        taskName = input "Enter the task name"
+        taskName = input("Enter the task name: ")
         tasks.append(createTask(taskName))
     elif choice == '2':
+        printAllTasks()
+    elif choice == '3':
+        printAllTasks()
+        doneChoice = int(input("Enter which task you want to mark as done: "))
+        markTaskAsDone(tasks[doneChoice - 1])
         
 
 printAllTasks()
