@@ -24,11 +24,7 @@ def deleteTask(taskId):
 tasks = []
 
 tasks.append(createTask("Learn Java"))
-#printAllTasks()
 
-#markTaskAsDone(tasks[0])
-
-#deleteTask(1)
 print("This is a task to-do list!")
 
 while True:
