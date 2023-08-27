@@ -23,8 +23,6 @@ def deleteTask(taskId):
 
 tasks = []
 
-tasks.append(createTask("Learn Java"))
-
 print("This is a task to-do list!")
 
 while True:
@@ -40,6 +38,8 @@ while True:
     if choice == '1':
         taskName = input("Enter the task name: ")
         tasks.append(createTask(taskName))
+        print("You've created a task with name ", taskName)
+        printAllTasks()
     elif choice == '2':
         printAllTasks()
     elif choice == '3':
@@ -47,6 +47,8 @@ while True:
         doneChoice = int(input("Enter which task you want to mark as done: "))
         try:
             markTaskAsDone(tasks[doneChoice - 1])
+            print("You've marked task ", tasks[doneChoice - 1].name , " as done")
+            printAllTasks()
         except IndexError:
             print("Invalid task ID provided, please choose from the list")
         except ValueError:
@@ -55,6 +57,7 @@ while True:
         printAllTasks()
         deleteChoice = int(input("Enter which task you want to delete: "))
         try:
+            print("You deleted a task with the name ", tasks[deleteChoice -1].name)
             deleteTask(deleteChoice - 1)
         except ValueError:
             print("Please enter a valid number as your task choice")
