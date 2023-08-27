@@ -49,7 +49,20 @@ while True:
     elif choice == '3':
         printAllTasks()
         doneChoice = int(input("Enter which task you want to mark as done: "))
-        markTaskAsDone(tasks[doneChoice - 1])
-        
-
-printAllTasks()
+        try:
+            markTaskAsDone(tasks[doneChoice - 1])
+        except IndexError:
+            print("Invalid task ID provided, please choose from the list")
+        except ValueError:
+            print("Please enter a valid number as your task choice")
+    elif choice == '4':
+        printAllTasks()
+        deleteChoice = int(input("Enter which task you want to delete: "))
+        try:
+            deleteTask(deleteChoice - 1)
+        except ValueError:
+            print("Please enter a valid number as your task choice")
+        except IndexError:
+            print("Invalid task ID provided, please choose from the list")
+    elif choice == '5':
+        break
