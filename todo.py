@@ -21,7 +21,23 @@ def markTaskAsDone(taskId):
 def deleteTask(taskId):
     del tasks[taskId]
 
+def loadListFromFile():
+    f = open ("taskListFile.txt","r")
+    data = f.read()
+    listVar = data.split("\n")
+    for index,item in enumerate(listVar):
+        taskData = item.split("\t")
+        try:
+            tasks.append(createTask(taskData[1]))
+            print("You've loaded a task from file with name ", taskData[1])
+            if taskData[2] == "Done":
+                markTaskAsDone(tasks[index])
+        except IndexError:
+            print("Load done")
+    f.close
+
 tasks = []
+loadListFromFile()
 
 print("This is a task to-do list!")
 
@@ -68,14 +84,10 @@ while True:
 
 f = open ("taskListFile.txt", "w")
 for index,task in enumerate(tasks):
-    if task.completed == False:
+    if task.completed == True:
         completed = "Done"
     else:
         completed = "Not done"
-    task_info = f"{index + 1}\t - {task.name}\t - {completed}\n"
+    task_info = f"{index + 1}\t{task.name}\t{completed}\n"
     f.write(task_info)
-f.close
-
-f = open ("taskListFile.txt","r")
-print(f.read())
 f.close
