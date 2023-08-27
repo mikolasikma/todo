@@ -65,3 +65,17 @@ while True:
             print("Invalid task ID provided, please choose from the list")
     elif choice == '5':
         break
+
+f = open ("taskListFile.txt", "w")
+for index,task in enumerate(tasks):
+    if task.completed == False:
+        completed = "Done"
+    else:
+        completed = "Not done"
+    task_info = f"{index + 1}\t - {task.name}\t - {completed}\n"
+    f.write(task_info)
+f.close
+
+f = open ("taskListFile.txt","r")
+print(f.read())
+f.close
