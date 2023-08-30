@@ -22,7 +22,7 @@ def deleteTask(taskId):
     del tasks[taskId]
 
 def loadListFromFile():
-    f = open ("taskListFile.txt","r")
+    f = open ("data/taskListFile.txt","r")
     data = f.read()
     listVar = data.split("\n")
     for index,item in enumerate(listVar):
@@ -82,7 +82,7 @@ while True:
     elif choice == '5':
         break
 
-f = open ("taskListFile.txt", "w")
+f = open ("data/taskListFile.txt", "w")
 for index,task in enumerate(tasks):
     if task.completed == True:
         completed = "Done"
