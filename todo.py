@@ -8,11 +8,14 @@ def createTask(taskName):
     return task
 
 def printAllTasks():
-    for index,task in enumerate(tasks):
+    tasksSorted = sorted(tasks, key=lambda x: x.completed, reverse=True)
+    for index,task in enumerate(tasksSorted):
         if task.completed:
             status = "Done"
         else:
             status = "Not done"
+        if tasks[index].completed == True and tasks[index - 1].completed == False:
+            print ("----------------------")
         print(index + 1 ,"\t - ", task.name, "\t - ", status)
 
 def markTaskAsDone(taskId):
