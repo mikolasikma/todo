@@ -6,5 +6,5 @@ Features:
     Mark a task as completed.
     View the list of tasks, both incomplete and completed.
     Delete a task from the list.
-
-
+    The tasks get saved into taskListFile.txt after quitting. On further startup of the program these tasks get
+    loaded
