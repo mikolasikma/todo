@@ -1,29 +1,55 @@
+import datetime
+
 class Task:
     def __init__(self, name):
-        self.name=name
-        self.completed=False
+        self.name = name
+        self.completed = False
+        self.due_date = None
 
 def createTask(taskName):
     task=Task(taskName)
     return task
 
 def printAllTasks():
-    tasksSorted = sorted(tasks, key=lambda x: x.completed, reverse=True)
+    tasksSorted = sorted(tasks, key=lambda x: x.completed)
     for index,task in enumerate(tasksSorted):
         if task.completed:
             status = "Done"
         else:
             status = "Not done"
-        if tasks[index].completed == True and tasks[index - 1].completed == False:
+        if tasks[index].completed == False and tasks[index - 1].completed == True:
             print ("----------------------")
-        print(index + 1 ,"\t - ", task.name, "\t - ", status)
-
+        if task.due_date:
+            print(index + 1 ,"\t - ", task.name, "\t - ", status , "\t ", task.due_date.strftime("%x"))
+        else:
+            print(index + 1 ,"\t - ", task.name, "\t - ", status)
+        
 def markTaskAsDone(taskId):
     taskId.completed = True
 
 def deleteTask(taskId):
     del tasks[taskId]
 
+def addDueDate(taskId):
+    print("Adding a due date for task ",tasks[taskId].name)
+    currentDate = datetime.datetime.now()
+
+    while True:
+        try:
+            year = 0
+            while year < currentDate.year:
+                year = int(input("Specify a year for the due date: "))
+            month = 0
+            while month < 1 or month > 12 or (year == currentDate.year and month < currentDate.month):
+                month = int(input("Specify a month for the due date[1 - 12]: "))
+            day = 0
+            while day < 1 or day > 31:
+                day = int(input("Specify a day for the due date[1 - 31]: "))
+            tasks[taskId].due_date = datetime.datetime(year, month, day)
+            print("You've successfully added the date ", tasks[taskId].due_date.strftime("%x"), "to task ", tasks[taskId].name)
+            break
+        except ValueError:
+            print("Date is not valid, please try again")
 def loadListFromFile():
     f = open ("data/taskListFile.txt","r")
     data = f.read()
@@ -50,7 +76,8 @@ while True:
     print("2. Print all tasks")
     print("3. Mark a task as done")
     print("4. Delete a task")
-    print("5. Quit")
+    print("5. Add a due date for a task")
+    print("6. Quit")
 
     choice = input("Enter your choice: ")
 
@@ -83,6 +110,10 @@ while True:
         except IndexError:
             print("Invalid task ID provided, please choose from the list")
     elif choice == '5':
+        printAllTasks()
+        dueDateChoice = int(input("Enter the task ID to which you want to add a due date: "))
+        addDueDate(dueDateChoice - 1)
+    elif choice == '6':
         break
 
 f = open ("data/taskListFile.txt", "w")
