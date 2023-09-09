@@ -11,21 +11,27 @@ def createTask(taskName):
     return task
 
 def printAllTasks():
+    global tasks
     tasksSorted = sorted(tasks, key=lambda x: x.completed)
     for index,task in enumerate(tasksSorted):
         if task.completed:
             status = "Done"
         else:
             status = "Not done"
-        if tasks[index].completed == False and tasks[index - 1].completed == True:
-            print ("----------------------")
         if task.due_date:
             print(index + 1 ,"\t - ", task.name, "\t - ", status , "\t ", task.due_date.strftime("%x"))
         else:
             print(index + 1 ,"\t - ", task.name, "\t - ", status)
+        if index + 1 < len(tasksSorted) and task.completed != tasksSorted[index + 1].completed:
+            print ("----------------------")
         
+        tasks = tasksSorted
+
 def markTaskAsDone(taskId):
     taskId.completed = True
+
+def markTaskAsNotDone(taskId):
+    taskId.completed = False
 
 def deleteTask(taskId):
     del tasks[taskId]
@@ -75,9 +81,10 @@ while True:
     print("1. Add a task")
     print("2. Print all tasks")
     print("3. Mark a task as done")
-    print("4. Delete a task")
-    print("5. Add a due date for a task")
-    print("6. Quit")
+    print("4. Mark a task as not done")
+    print("5. Delete a task")
+    print("6. Add a due date for a task")
+    print("7. Quit")
 
     choice = input("Enter your choice: ")
 
@@ -101,6 +108,17 @@ while True:
             print("Please enter a valid number as your task choice")
     elif choice == '4':
         printAllTasks()
+        notDoneChoice = int(input("Enter which task you want to mark as not done: "))
+        try:
+            markTaskAsNotDone(tasks[notDoneChoice - 1])
+            print("You've marked task ", tasks[notDoneChoice - 1].name , " as not done")
+            printAllTasks()
+        except IndexError:
+            print("Invalid task ID provided, please choose from the list")
+        except ValueError:
+            print("Please enter a valid number as your task choice")
+    elif choice == '5':
+        printAllTasks()
         deleteChoice = int(input("Enter which task you want to delete: "))
         try:
             print("You deleted a task with the name ", tasks[deleteChoice -1].name)
@@ -109,11 +127,11 @@ while True:
             print("Please enter a valid number as your task choice")
         except IndexError:
             print("Invalid task ID provided, please choose from the list")
-    elif choice == '5':
+    elif choice == '6':
         printAllTasks()
         dueDateChoice = int(input("Enter the task ID to which you want to add a due date: "))
         addDueDate(dueDateChoice - 1)
-    elif choice == '6':
+    elif choice == '7':
         break
 
 f = open ("data/taskListFile.txt", "w")
