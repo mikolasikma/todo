@@ -57,6 +57,10 @@ def addDueDate(taskId):
         except ValueError:
             print("Date is not valid, please try again")
 
+def deleteDueDate(taskId):
+    tasks[taskId].due_date = None
+    print("You've removed due date from task ", tasks[taskId].name)
+    
 def loadListFromFile():
     f = open ("data/taskListFile.txt","r")
     data = f.read()
@@ -109,7 +113,8 @@ while True:
     print("4. Mark a task as not done")
     print("5. Delete a task")
     print("6. Add a due date for a task")
-    print("7. Quit")
+    print("7. Delete a due date from a task")
+    print("8. Save and quit")
 
     choice = input("Enter your choice: ")
 
@@ -155,8 +160,17 @@ while True:
     elif choice == '6':
         printAllTasks()
         dueDateChoice = int(input("Enter the task ID to which you want to add a due date: "))
-        addDueDate(dueDateChoice - 1)
+        try:
+            addDueDate(dueDateChoice - 1)
+        except IndexError:
+            print("Invalid task ID provided, please choose from the list")
     elif choice == '7':
+        printAllTasks()
+        dueDateDeleteChoice = int(input("Enter which task's due date you want to delete: "))
+        try:
+            deleteDueDate(dueDateDeleteChoice - 1)
+        except IndexError:
+            print("Invalid task ID provided, please choose from the list")
+    elif choice == '8':
+        saveListIntoFile()
         break
-
-    saveListIntoFile()
