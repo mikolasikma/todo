@@ -19,7 +19,7 @@ def printAllTasks():
         else:
             status = "Not done"
         if task.due_date:
-            print(index + 1 ,"\t - ", task.name, "\t - ", status , "\t ", task.due_date.strftime("%x"))
+            print(index + 1 ,"\t - ", task.name, "\t - ", status , "\t due ", task.due_date.strftime("%x"))
         else:
             print(index + 1 ,"\t - ", task.name, "\t - ", status)
         if index + 1 < len(tasksSorted) and task.completed != tasksSorted[index + 1].completed:
@@ -56,6 +56,7 @@ def addDueDate(taskId):
             break
         except ValueError:
             print("Date is not valid, please try again")
+
 def loadListFromFile():
     f = open ("data/taskListFile.txt","r")
     data = f.read()
@@ -67,6 +68,14 @@ def loadListFromFile():
             print("You've loaded a task from file with name ", taskData[1])
             if taskData[2] == "Done":
                 markTaskAsDone(tasks[index])
+            if taskData[3] != 'None':
+                due_date_components = taskData[3].split("/")
+                if len(due_date_components) == 3:
+                    try:
+                        print("The task day is: ",due_date_components[0], "The task month is: ", due_date_components[1], "The task year is: ",due_date_components[2])
+                        tasks[index].due_date = datetime.datetime(int(due_date_components[0]),int(due_date_components[1]),int(due_date_components[2]))
+                    except ValueError:
+                        print("Invalid date components in the file")
         except IndexError:
             print("Load done")
     f.close
@@ -140,6 +149,10 @@ for index,task in enumerate(tasks):
         completed = "Done"
     else:
         completed = "Not done"
-    task_info = f"{index + 1}\t{task.name}\t{completed}\n"
+    if task.due_date is not None:
+        due_date_str = task.due_date.strftime("%x")
+    else:
+        due_date_str = ""
+    task_info = f"{index + 1}\t{task.name}\t{completed}\t{due_date_str}\n"
     f.write(task_info)
 f.close
