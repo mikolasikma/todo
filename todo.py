@@ -80,6 +80,22 @@ def loadListFromFile():
             print("Load done")
     f.close
 
+def saveListIntoFile():
+    f = open ("data/taskListFile.txt", "w")
+    for index,task in enumerate(tasks):
+        if task.completed == True:
+            completed = "Done"
+        else:
+            completed = "Not done"
+        if task.due_date is not None:
+            due_date_str = task.due_date.strftime("%x")
+        else:
+            due_date_str = ""
+        task_info = f"{index + 1}\t{task.name}\t{completed}\t{due_date_str}\n"
+        f.write(task_info)
+    f.close
+
+
 tasks = []
 loadListFromFile()
 
@@ -143,16 +159,4 @@ while True:
     elif choice == '7':
         break
 
-f = open ("data/taskListFile.txt", "w")
-for index,task in enumerate(tasks):
-    if task.completed == True:
-        completed = "Done"
-    else:
-        completed = "Not done"
-    if task.due_date is not None:
-        due_date_str = task.due_date.strftime("%x")
-    else:
-        due_date_str = ""
-    task_info = f"{index + 1}\t{task.name}\t{completed}\t{due_date_str}\n"
-    f.write(task_info)
-f.close
+    saveListIntoFile()
